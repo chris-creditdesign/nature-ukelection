@@ -1,4 +1,6 @@
-d3.sankey = function() {
+/* D3 sankey plugin by Jason Davies */
+/* https://github.com/d3/d3-plugins/tree/master/sankey */
+var sankey = function() {
   var sankey = {},
       nodeWidth = 24,
       nodePadding = 8,
@@ -51,7 +53,7 @@ d3.sankey = function() {
   };
 
   sankey.link = function() {
-    var curvature = .5;
+    var curvature = 0.5;
 
     function link(d) {
       var x0 = d.source.x + d.source.dx,
@@ -61,10 +63,7 @@ d3.sankey = function() {
           x3 = xi(1 - curvature),
           y0 = d.source.y + d.sy + d.dy / 2,
           y1 = d.target.y + d.ty + d.dy / 2;
-      return "M" + x0 + "," + y0
-           + "C" + x2 + "," + y0
-           + " " + x3 + "," + y1
-           + " " + x1 + "," + y1;
+      return "M" + x0 + "," + y0 + "C" + x2 + "," + y0 + " " + x3 + "," + y1 + " " + x1 + "," + y1;
     }
 
     link.curvature = function(_) {
@@ -76,8 +75,8 @@ d3.sankey = function() {
     return link;
   };
 
-  // Populate the sourceLinks and targetLinks for each node.
-  // Also, if the source and target are not objects, assume they are indices.
+  /* Populate the sourceLinks and targetLinks for each node. */
+  /* Also, if the source and target are not objects, assume they are indices. */
   function computeNodeLinks() {
     nodes.forEach(function(node) {
       node.sourceLinks = [];
@@ -93,7 +92,7 @@ d3.sankey = function() {
     });
   }
 
-  // Compute the value (size) of each node by summing the associated links.
+  /* Compute the value (size) of each node by summing the associated links. */
   function computeNodeValues() {
     nodes.forEach(function(node) {
       node.value = Math.max(
@@ -103,10 +102,10 @@ d3.sankey = function() {
     });
   }
 
-  // Iteratively assign the breadth (x-position) for each node.
-  // Nodes are assigned the maximum breadth of incoming neighbors plus one;
-  // nodes with no incoming links are assigned breadth zero, while
-  // nodes with no outgoing links are assigned the maximum breadth.
+  /* Iteratively assign the breadth (x-position) for each node. */
+  /* Nodes are assigned the maximum breadth of incoming neighbors plus one; */
+  /* nodes with no incoming links are assigned breadth zero, while */
+  /* nodes with no outgoing links are assigned the maximum breadth. */
   function computeNodeBreadths() {
     var remainingNodes = nodes,
         nextNodes,
@@ -127,7 +126,7 @@ d3.sankey = function() {
       ++x;
     }
 
-    //
+    /* */
     moveSinksRight(x);
     scaleNodeBreadths((size[0] - nodeWidth) / (x - 1));
   }
@@ -161,11 +160,11 @@ d3.sankey = function() {
         .entries(nodes)
         .map(function(d) { return d.values; });
 
-    //
+    /* */
     initializeNodeDepth();
     resolveCollisions();
     for (var alpha = 1; iterations > 0; --iterations) {
-      relaxRightToLeft(alpha *= .99);
+      relaxRightToLeft(alpha *= 0.99);
       resolveCollisions();
       relaxLeftToRight(alpha);
       resolveCollisions();
@@ -226,7 +225,7 @@ d3.sankey = function() {
             n = nodes.length,
             i;
 
-        // Push any overlapping nodes down.
+        /* Push any overlapping nodes down. */
         nodes.sort(ascendingDepth);
         for (i = 0; i < n; ++i) {
           node = nodes[i];
@@ -235,12 +234,12 @@ d3.sankey = function() {
           y0 = node.y + node.dy + nodePadding;
         }
 
-        // If the bottommost node goes outside the bounds, push it back up.
+        /* If the bottommost node goes outside the bounds, push it back up. */
         dy = y0 - nodePadding - size[1];
         if (dy > 0) {
           y0 = node.y -= dy;
 
-          // Push any overlapping nodes back up.
+          /* Push any overlapping nodes back up. */
           for (i = n - 2; i >= 0; --i) {
             node = nodes[i];
             dy = node.y + node.dy + nodePadding - y0;

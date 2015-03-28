@@ -32,6 +32,9 @@ module.exports = function(grunt){
 			files: {
 				src : 'assets/js/*.js'
 			},
+			options: {
+				ignores: ['assets/js/sankey.js']
+			}
 		},
 
 		concat: {
@@ -43,6 +46,7 @@ module.exports = function(grunt){
 						'assets/concat/style-close.txt',
 						'assets/widget.html',
 						'assets/concat/script-open.txt',
+						'assets/js/sankey.js',
 						'assets/js/buildWidget.js',
 						'assets/js/resize.js',
 						'assets/js/buildData.js',
@@ -62,6 +66,7 @@ module.exports = function(grunt){
 						'assets/concat/style-close.txt',
 						'assets/widget.html',
 						'assets/concat/script-open.txt',
+						'assets/js/sankey.js',
 						'assets/js/buildWidget.js',
 						'assets/js/resize.js',
 						'assets/js/buildData.js',

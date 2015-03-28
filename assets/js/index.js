@@ -4,31 +4,26 @@
 
 		var dataURL = "data/energy6.json";
 		var d3URL = "js/d3.v3.min.js";
-		var sankeyURL = "js/sankey.js";
 
-		$.when( $.getScript(d3URL),
-				$.getScript(sankeyURL)
-		).then( function () {
-		
-			var data = buildData();
-			var params = buildParams("#chart");
+		$.getScript( d3URL )
+			.done(function( script, textStatus ) {
+				d3.sankey = sankey;
+				var data = buildData();
+				var params = buildParams("#chart");
 
-			var spaghettiChart = new BuildWidget(params, data);
-			
-			spaghettiChart.buildSVG();
-			spaghettiChart.buildSankey();
+				var spaghettiChart = new BuildWidget(params, data);
+				
+				spaghettiChart.buildSVG();
+				spaghettiChart.buildSankey();
 
-			// var width = $(window).width();
+				// var width = $(window).width();
 
-			window.onresize = resize;
-
-		}, function (error) {
-			$(".widget-error-message").css("display","block");
-			console.log("It's not loaded!");
-
+				window.onresize = resize;		
+			})
+			.fail(function( jqxhr, settings, exception ) {
+				$(".widget-error-message").css("display","block");
+				console.log("It's not loaded!");
 		});
-
-
 	/* End of active code */
 	};
 
