@@ -56,7 +56,6 @@
 
 .outerwrapper {
   width: 100%;
-  min-height: 900px;
   position: relative;
   border: 1px solid #c8c7cf;
 }
@@ -64,8 +63,11 @@
   padding: 10px 10px 0 10px;
   margin: 0;
 }
-.outerwrapper #chart {
-  height: 500px;
+.outerwrapper .left {
+  float: left;
+}
+.outerwrapper .right {
+  float: right;
 }
 .outerwrapper .node rect {
   cursor: move;
@@ -78,10 +80,31 @@
 .outerwrapper .link, .outerwrapper .top-link {
   fill: none;
 }
+.outerwrapper .cf:before,
+.outerwrapper .cf:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+.outerwrapper .cf:after {
+  clear: both;
+}
 
 </style>
 <div class="outerwrapper">
-	<p>I hope this works!</p>
+	<div class="header">
+		<h2>INTERACTIVE: UK election 2015</h2>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad iure recusandae soluta explicabo et error nostrum earum aliquam, dolorum impedit magni eum at reprehenderit expedita maxime odio placeat. Omnis, totam.</p>
+	</div>
+	<div class="cf">
+		<div class="left">
+			<p><strong>2010</strong></p>
+		</div>
+		<div class="right">
+			<p><strong>2015</strong></p>
+		</div>
+	</div>
 	<div id="chart"></div>
 </div>
 <!--[if gt IE 8]><!-->

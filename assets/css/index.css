@@ -6,7 +6,6 @@
 
 .outerwrapper {
   width: 100%;
-  min-height: 900px;
   position: relative;
   border: 1px solid #c8c7cf;
 }
@@ -14,8 +13,11 @@
   padding: 10px 10px 0 10px;
   margin: 0;
 }
-.outerwrapper #chart {
-  height: 500px;
+.outerwrapper .left {
+  float: left;
+}
+.outerwrapper .right {
+  float: right;
 }
 .outerwrapper .node rect {
   cursor: move;
@@ -27,4 +29,14 @@
 }
 .outerwrapper .link, .outerwrapper .top-link {
   fill: none;
+}
+.outerwrapper .cf:before,
+.outerwrapper .cf:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+.outerwrapper .cf:after {
+  clear: both;
 }
