@@ -10,20 +10,30 @@
 				d3.sankey = sankey;
 				var data = buildData();
 				var params = buildParams("#chart");
+				var width = $(window).width();
 
 				var spaghettiChart = new BuildWidget(params, data);
 				
 				spaghettiChart.buildSVG();
 				spaghettiChart.buildSankey();
 
-				// var width = $(window).width();
+				var resize = debounce(function() {
+					if($(window).width() != width){
+						width = $(window).width();
+						spaghettiChart.resize();
+						spaghettiChart.graphic.remove();
+						spaghettiChart.buildSankey();
+					}
+					
+				}, 100);
 
-				window.onresize = resize;		
+				window.addEventListener('resize', resize);
+
 			})
 			.fail(function( jqxhr, settings, exception ) {
 				$(".widget-error-message").css("display","block");
 				console.log("It's not loaded!");
-		});
+			});
 	/* End of active code */
 	};
 

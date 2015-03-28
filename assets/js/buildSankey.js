@@ -1,5 +1,8 @@
 BuildWidget.prototype.buildSankey = function() {
 	var self = this;
+
+	this.graphic = this.svg.append("g")
+		.attr("transform", "translate(" + this.params.margin.left + "," + this.params.margin.top + ")");
 	
 	var sankey = d3.sankey()
 		.nodeWidth(15)

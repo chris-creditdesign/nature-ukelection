@@ -60,6 +60,22 @@
 </div>
 <!--[if gt IE 8]><!-->
 <script type="text/javascript">
+/* http://davidwalsh.name/javascript-debounce-function */
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+}
+
 /* D3 sankey plugin by Jason Davies */
 /* https://github.com/d3/d3-plugins/tree/master/sankey */
 var sankey = function() {
@@ -359,13 +375,6 @@ function BuildWidget (params, data) {
 	this.data = data;
 }
 
-function resize () {
-	// if($(window).width() != width){
-	// 	width = $(window).width();
-	// 	console.log("We're resizing!");
-	// }
-}
-
 function buildData () {
 	var data = {};
 
@@ -455,8 +464,10 @@ function buildData () {
 function buildParams (target) {
 	var params = {};
 
+	var contentWidth = jQuery("#content").width();
+
 	params.margin = {top: 1, right: 10, bottom: 6, left: 10};
-	params.width = 630 - params.margin.left - params.margin.right;
+	params.width = contentWidth - params.margin.left - params.margin.right;
 	params.height = 500 - params.margin.top - params.margin.bottom;
 
 	params.highOpacity = 1;
@@ -477,10 +488,6 @@ function buildParams (target) {
 		undecided: "#868987",
 		notVoting: "#868987"
 	};
-
-
-	// params.formatNumber = d3.format(",.0f");
-	// params.format = function(d) { return formatNumber(d) + " TWh"; };
 
 	return params;
 }
@@ -512,13 +519,13 @@ BuildWidget.prototype.buildSVG = function() {
 				.attr("stop-opacity", 1);
 		}
 	}
-	
-	this.graphic = this.svg.append("g")
-		.attr("transform", "translate(" + this.params.margin.left + "," + this.params.margin.top + ")");
 };
 
 BuildWidget.prototype.buildSankey = function() {
 	var self = this;
+
+	this.graphic = this.svg.append("g")
+		.attr("transform", "translate(" + this.params.margin.left + "," + this.params.margin.top + ")");
 	
 	var sankey = d3.sankey()
 		.nodeWidth(15)
@@ -623,6 +630,14 @@ BuildWidget.prototype.buildSankey = function() {
 	}
 };
 
+BuildWidget.prototype.resize = function() {
+	var contentWidth = jQuery("#content").width();
+
+	this.params.width = contentWidth - this.params.margin.left - this.params.margin.right;
+
+	this.svg.attr("width", this.params.width + this.params.margin.left + this.params.margin.right);
+};
+
 (function() {
 	var init = function($) {
 		// var d3URL = "http://www.nature.com/widget_assets_polopoly/v518n7538/d3.v3.min.js";
@@ -635,20 +650,30 @@ BuildWidget.prototype.buildSankey = function() {
 				d3.sankey = sankey;
 				var data = buildData();
 				var params = buildParams("#chart");
+				var width = $(window).width();
 
 				var spaghettiChart = new BuildWidget(params, data);
 				
 				spaghettiChart.buildSVG();
 				spaghettiChart.buildSankey();
 
-				// var width = $(window).width();
+				var resize = debounce(function() {
+					if($(window).width() != width){
+						width = $(window).width();
+						spaghettiChart.resize();
+						spaghettiChart.graphic.remove();
+						spaghettiChart.buildSankey();
+					}
+					
+				}, 100);
 
-				window.onresize = resize;		
+				window.addEventListener('resize', resize);
+
 			})
 			.fail(function( jqxhr, settings, exception ) {
 				$(".widget-error-message").css("display","block");
 				console.log("It's not loaded!");
-		});
+			});
 	/* End of active code */
 	};
 

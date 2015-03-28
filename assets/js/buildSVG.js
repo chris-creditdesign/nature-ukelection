@@ -25,7 +25,4 @@ BuildWidget.prototype.buildSVG = function() {
 				.attr("stop-opacity", 1);
 		}
 	}
-	
-	this.graphic = this.svg.append("g")
-		.attr("transform", "translate(" + this.params.margin.left + "," + this.params.margin.top + ")");
 };

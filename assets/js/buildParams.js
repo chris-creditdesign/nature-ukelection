@@ -1,8 +1,10 @@
 function buildParams (target) {
 	var params = {};
 
+	var contentWidth = jQuery("#content").width();
+
 	params.margin = {top: 1, right: 10, bottom: 6, left: 10};
-	params.width = 630 - params.margin.left - params.margin.right;
+	params.width = contentWidth - params.margin.left - params.margin.right;
 	params.height = 500 - params.margin.top - params.margin.bottom;
 
 	params.highOpacity = 1;
@@ -23,10 +25,6 @@ function buildParams (target) {
 		undecided: "#868987",
 		notVoting: "#868987"
 	};
-
-
-	// params.formatNumber = d3.format(",.0f");
-	// params.format = function(d) { return formatNumber(d) + " TWh"; };
 
 	return params;
 }
