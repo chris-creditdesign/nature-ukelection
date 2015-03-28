@@ -19,7 +19,7 @@
 }
 .outerwrapper .node rect {
   cursor: move;
-  fill-opacity: 0.9;
+  fill-opacity: 1;
   shape-rendering: crispEdges;
 }
 .outerwrapper .node text {
@@ -30,5 +30,5 @@
   stroke-opacity: 0.2;
 }
 .outerwrapper .link:hover {
-  stroke-opacity: 0.8;
+  stroke-opacity: 1;
 }

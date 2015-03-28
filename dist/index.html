@@ -20,7 +20,7 @@
 }
 .outerwrapper .node rect {
   cursor: move;
-  fill-opacity: 0.9;
+  fill-opacity: 1;
   shape-rendering: crispEdges;
 }
 .outerwrapper .node text {
@@ -31,7 +31,7 @@
   stroke-opacity: 0.2;
 }
 .outerwrapper .link:hover {
-  stroke-opacity: 0.8;
+  stroke-opacity: 1;
 }
 
 </style>
@@ -353,25 +353,25 @@ function buildData () {
 	data.nodes = [
 		/* From */
 		{"node":0, "name":"Conservative",		"id":"conservative", "year":2010,},
-		{"node":1, "name":"Don't know",			"id":"dontKnow",	 "year":2010,},
-		{"node":2, "name":"Green",				"id":"green",		 "year":2010,},
-		{"node":3, "name":"Labour",				"id":"labour",		 "year":2010,},
+		{"node":1, "name":"Don't know",		"id":"dontKnow",	 "year":2010,},
+		{"node":2, "name":"Green",			"id":"green",		 "year":2010,},
+		{"node":3, "name":"Labour",			"id":"labour",		 "year":2010,},
 		{"node":4, "name":"Liberal Democrats",	"id":"libDem",		 "year":2010,},
-		{"node":5, "name":"Other",				"id":"other",		 "year":2010,},
+		{"node":5, "name":"Other",			"id":"other",		 "year":2010,},
 		{"node":6, "name":"Plaid Cymru",		"id":"plaid",		 "year":2010,},
-		{"node":7, "name":"SNP",				"id":"snp",			 "year":2010,},
-		{"node":8, "name":"UKIP",				"id":"ukip",		 "year":2010,},
+		{"node":7, "name":"SNP",				"id":"snp",		 "year":2010,},
+		{"node":8, "name":"UKIP",			"id":"ukip",		 "year":2010,},
 		/* To */
 		{"node":9, "name":"Conservative",		"id":"conservative", "year":2015,},
-		{"node":10, "name":"Undecided",			"id":"undecided",	 "year":2015,},
-		{"node":11, "name":"Green",				"id":"green",		 "year":2015,},
+		{"node":10, "name":"Undecided",		"id":"undecided",	 "year":2015,},
+		{"node":11, "name":"Green",			"id":"green",		 "year":2015,},
 		{"node":12, "name":"Labour",			"id":"labour",		 "year":2015,},
 		{"node":13, "name":"Liberal Democrats",	"id":"libDem",		 "year":2015,},
-		{"node":14, "name":"Other",				"id":"other",		 "year":2015,},
+		{"node":14, "name":"Other",			"id":"other",		 "year":2015,},
 		{"node":15, "name":"Plaid Cymru",		"id":"plaid",		 "year":2015,},
-		{"node":16, "name":"SNP",				"id":"snp",			 "year":2015,},
-		{"node":17, "name":"UKIP",				"id":"ukip",		 "year":2015,},
-		{"node":18, "name":"Not voting",		"id":"notVoting",		 "year":2015,}
+		{"node":16, "name":"SNP",			"id":"snp",		 "year":2015,},
+		{"node":17, "name":"UKIP",			"id":"ukip",		 "year":2015,},
+		{"node":18, "name":"Not voting",		"id":"notVoting",	 "year":2015,}
 	];
 
 	data.links = [
@@ -442,6 +442,21 @@ function buildParams (target) {
 
 	params.target = target;
 
+	params.colours = {
+		conservative: "#006CB1",
+		dontKnow: "#868987",
+		green: "#46A72C",
+		labour: "#A7141D",
+		libDem: "#FED459",
+		other: "#",
+		plaid: "#01632C",
+		snp: "#F8B435",
+		ukip: "#B570A7",
+		undecided: "#868987",
+		notVoting: "#868987"
+	};
+
+
 	// params.formatNumber = d3.format(",.0f");
 	// params.format = function(d) { return formatNumber(d) + " TWh"; };
 
@@ -453,22 +468,31 @@ BuildWidget.prototype.buildSVG = function() {
 	this.svg = d3.select(this.params.target).append("svg")
 		.attr("width", this.params.width + this.params.margin.left + this.params.margin.right)
 		.attr("height", this.params.height + this.params.margin.top + this.params.margin.bottom);
+
+	/* Iterate through each of the colours and create a gradient for each combination */
+	var gradient;
+	for (var start in this.params.colours ) {
+		// console.log(start + " " + this.params.colours[start]);
+		for (var end in this.params.colours) {
+			// console.log(start + "-" + end);
+
+			gradient = this.svg.append("svg:defs")
+			  .append("svg:linearGradient")
+				.attr("id", start + "-" + end)
+				.attr("gradientUnits","userSpaceOnUse");
+
+			gradient.append("svg:stop")
+				.attr("offset", "0%")
+				.attr("stop-color", this.params.colours[start])
+				.attr("stop-opacity", 1);
+
+			gradient.append("svg:stop")
+				.attr("offset", "100%")
+				.attr("stop-color", this.params.colours[end])
+				.attr("stop-opacity", 1);
+		}
+	}
 	
-	var gradient = this.svg.append("svg:defs")
-	  .append("svg:linearGradient")
-		.attr("id", "gradient")
-		.attr("gradientUnits","userSpaceOnUse");
-
-	gradient.append("svg:stop")
-		.attr("offset", "0%")
-		.attr("stop-color", "#0c0")
-		.attr("stop-opacity", 1);
-
-	gradient.append("svg:stop")
-		.attr("offset", "100%")
-		.attr("stop-color", "#c00")
-		.attr("stop-opacity", 1);
-
 	this.graphic = this.svg.append("g")
 		.attr("transform", "translate(" + this.params.margin.left + "," + this.params.margin.top + ")");
 };
@@ -489,13 +513,15 @@ BuildWidget.prototype.buildSankey = function() {
 		.layout(32);
 	
 	var link = this.graphic.append("g").selectAll(".link")
-		  .data(this.data.links)
-		.enter().append("path")
-		  .attr("class", "link")
-		  .attr("d", path)
-		  .attr("stroke","url(#gradient)")
-		  .style("stroke-width", function(d) { return Math.max(1, d.dy); })
-		  .sort(function(a, b) { return b.dy - a.dy; });
+					.data(this.data.links)
+				  .enter().append("path")
+					.attr("class", "link")
+					.attr("d", path)
+					.attr("stroke", function (d) {
+						return "url(#" + d.source.id + "-" + d.target.id + ")";
+					})
+					.style("stroke-width", function(d) { return Math.max(1, d.dy); })
+					.sort(function(a, b) { return b.dy - a.dy; });
 
 	/* What is this for? */
 	// link.append("title")
@@ -524,11 +550,11 @@ BuildWidget.prototype.buildSankey = function() {
 	node.append("rect")
 		.attr("height", function(d) { return d.dy; })
 		.attr("width", sankey.nodeWidth())
-		.style("fill", function(d) { 
-			return d.colour;
+		.style("fill", function(d) {
+			return self.params.colours[d.id];
 		})
 		.style("stroke", "none");
-	  
+
 	  /* What is this for? */
 	  //.append("title")
 		//.text(function(d) { return d.name + "\n" + format(d.value); });

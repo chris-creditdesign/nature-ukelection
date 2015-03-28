@@ -14,13 +14,15 @@ BuildWidget.prototype.buildSankey = function() {
 		.layout(32);
 	
 	var link = this.graphic.append("g").selectAll(".link")
-		  .data(this.data.links)
-		.enter().append("path")
-		  .attr("class", "link")
-		  .attr("d", path)
-		  .attr("stroke","url(#gradient)")
-		  .style("stroke-width", function(d) { return Math.max(1, d.dy); })
-		  .sort(function(a, b) { return b.dy - a.dy; });
+					.data(this.data.links)
+				  .enter().append("path")
+					.attr("class", "link")
+					.attr("d", path)
+					.attr("stroke", function (d) {
+						return "url(#" + d.source.id + "-" + d.target.id + ")";
+					})
+					.style("stroke-width", function(d) { return Math.max(1, d.dy); })
+					.sort(function(a, b) { return b.dy - a.dy; });
 
 	/* What is this for? */
 	// link.append("title")
@@ -49,11 +51,11 @@ BuildWidget.prototype.buildSankey = function() {
 	node.append("rect")
 		.attr("height", function(d) { return d.dy; })
 		.attr("width", sankey.nodeWidth())
-		.style("fill", function(d) { 
-			return d.colour;
+		.style("fill", function(d) {
+			return self.params.colours[d.id];
 		})
 		.style("stroke", "none");
-	  
+
 	  /* What is this for? */
 	  //.append("title")
 		//.text(function(d) { return d.name + "\n" + format(d.value); });

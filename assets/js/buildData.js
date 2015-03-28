@@ -4,25 +4,25 @@ function buildData () {
 	data.nodes = [
 		/* From */
 		{"node":0, "name":"Conservative",		"id":"conservative", "year":2010,},
-		{"node":1, "name":"Don't know",			"id":"dontKnow",	 "year":2010,},
-		{"node":2, "name":"Green",				"id":"green",		 "year":2010,},
-		{"node":3, "name":"Labour",				"id":"labour",		 "year":2010,},
+		{"node":1, "name":"Don't know",		"id":"dontKnow",	 "year":2010,},
+		{"node":2, "name":"Green",			"id":"green",		 "year":2010,},
+		{"node":3, "name":"Labour",			"id":"labour",		 "year":2010,},
 		{"node":4, "name":"Liberal Democrats",	"id":"libDem",		 "year":2010,},
-		{"node":5, "name":"Other",				"id":"other",		 "year":2010,},
+		{"node":5, "name":"Other",			"id":"other",		 "year":2010,},
 		{"node":6, "name":"Plaid Cymru",		"id":"plaid",		 "year":2010,},
-		{"node":7, "name":"SNP",				"id":"snp",			 "year":2010,},
-		{"node":8, "name":"UKIP",				"id":"ukip",		 "year":2010,},
+		{"node":7, "name":"SNP",				"id":"snp",		 "year":2010,},
+		{"node":8, "name":"UKIP",			"id":"ukip",		 "year":2010,},
 		/* To */
 		{"node":9, "name":"Conservative",		"id":"conservative", "year":2015,},
-		{"node":10, "name":"Undecided",			"id":"undecided",	 "year":2015,},
-		{"node":11, "name":"Green",				"id":"green",		 "year":2015,},
+		{"node":10, "name":"Undecided",		"id":"undecided",	 "year":2015,},
+		{"node":11, "name":"Green",			"id":"green",		 "year":2015,},
 		{"node":12, "name":"Labour",			"id":"labour",		 "year":2015,},
 		{"node":13, "name":"Liberal Democrats",	"id":"libDem",		 "year":2015,},
-		{"node":14, "name":"Other",				"id":"other",		 "year":2015,},
+		{"node":14, "name":"Other",			"id":"other",		 "year":2015,},
 		{"node":15, "name":"Plaid Cymru",		"id":"plaid",		 "year":2015,},
-		{"node":16, "name":"SNP",				"id":"snp",			 "year":2015,},
-		{"node":17, "name":"UKIP",				"id":"ukip",		 "year":2015,},
-		{"node":18, "name":"Not voting",		"id":"notVoting",		 "year":2015,}
+		{"node":16, "name":"SNP",			"id":"snp",		 "year":2015,},
+		{"node":17, "name":"UKIP",			"id":"ukip",		 "year":2015,},
+		{"node":18, "name":"Not voting",		"id":"notVoting",	 "year":2015,}
 	];
 
 	data.links = [
