@@ -52,7 +52,7 @@ BuildWidget.prototype.buildSankey = function() {
 		.style("fill", function(d) { 
 			return d.colour;
 		})
-		.style("stroke", function(d) { return d3.rgb(d.color).darker(2); });
+		.style("stroke", "none");
 	  
 	  /* What is this for? */
 	  //.append("title")
