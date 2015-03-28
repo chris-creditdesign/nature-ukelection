@@ -9,21 +9,16 @@
 		$.when( $.getScript(d3URL),
 				$.getScript(sankeyURL)
 		).then( function () {
+		
+			var data = buildData();
+			var params = buildParams("#chart");
 
-			/*	Load the data in parallel */
-			/*	https://groups.google.com/forum/#!msg/d3-js/3Y9VHkOOdCM/YnmOPopWUxQJ */
-			var data;
-			var remaining = 1;
-			var width = $(window).width();
+			var spaghettiChart = new BuildWidget(params, data);
+			
+			spaghettiChart.buildSVG();
+			spaghettiChart.buildSankey();
 
-			d3.json(dataURL, function (error, d) {
-				if (error) {
-					$(".widget-error-message").css("display","block");
-				} else {
-					data = d;
-					if (!--remaining) buildGraphic(d);
-				}
-			});
+			// var width = $(window).width();
 
 			window.onresize = resize;
 

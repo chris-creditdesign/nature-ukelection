@@ -91,91 +91,125 @@
 </div>
 <!--[if gt IE 8]><!-->
 <script type="text/javascript">
+function BuildWidget (params, data) {
+	this.params = params;
+	this.data = data;
+}
 function resize () {
 	// if($(window).width() != width){
 	// 	width = $(window).width();
 	// 	console.log("We're resizing!");
 	// }
 }
-function buildGraphic (data) {
+function buildData () {
+	var data = {};
 
-	console.log(data);
+	data.nodes = [
+		{"node":0,	"name":"Jean",		"year":2010, "colour":"hotpink"},
+		{"node":1,	"name":"Martin",	"year":2010, "colour":"yellow"},
+		{"node":2,	"name":"Steve",		"year":2010, "colour":"green"},
+		{"node":3,	"name":"Jean",		"year":2015, "colour":"hotpink"},
+		{"node":4,	"name":"Martin",	"year":2015, "colour":"yellow"},
+		{"node":5,	"name":"Steve",		"year":2015, "colour":"green"}
+	];
 
-	var margin = {top: 1, right: 1, bottom: 6, left: 1},
-		width = 630 - margin.left - margin.right,
-		height = 500 - margin.top - margin.bottom;
+	data.links = [
+		{"source":0,"target":3,"value":1},
+		{"source":0,"target":4,"value":1},
+		{"source":1,"target":3,"value":1},
+		{"source":1,"target":4,"value":1},
+		{"source":2,"target":3,"value":1},
+		{"source":2,"target":5,"value":2}
+	];
 
-	var formatNumber = d3.format(",.0f"),
-		format = function(d) { return formatNumber(d) + " TWh"; },
-		color = d3.scale.category20();
+	return data;
+}
+function buildParams (target) {
+	var params = {};
 
-	var svg = d3.select("#chart").append("svg")
-		.attr("width", width + margin.left + margin.right)
-		.attr("height", height + margin.top + margin.bottom)
-	  .append("g")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	params.margin = {top: 1, right: 1, bottom: 6, left: 1};
+	params.width = 630 - params.margin.left - params.margin.right;
+	params.height = 500 - params.margin.top - params.margin.bottom;
 
+	params.target = target;
 
-	var gradient = svg.append("svg:defs")
+	// params.formatNumber = d3.format(",.0f");
+	// params.format = function(d) { return formatNumber(d) + " TWh"; };
+
+	return params;
+}
+BuildWidget.prototype.buildSVG = function() {
+	
+	this.svg = d3.select(this.params.target).append("svg")
+		.attr("width", this.params.width + this.params.margin.left + this.params.margin.right)
+		.attr("height", this.params.height + this.params.margin.top + this.params.margin.bottom);
+	
+	var gradient = this.svg.append("svg:defs")
 	  .append("svg:linearGradient")
-	    .attr("id", "gradient")
-	    .attr("gradientUnits","userSpaceOnUse");
+		.attr("id", "gradient")
+		.attr("gradientUnits","userSpaceOnUse");
 
 	gradient.append("svg:stop")
-	    .attr("offset", "0%")
-	    .attr("stop-color", "#0c0")
-	    .attr("stop-opacity", 1);
+		.attr("offset", "0%")
+		.attr("stop-color", "#0c0")
+		.attr("stop-opacity", 1);
 
 	gradient.append("svg:stop")
-	    .attr("offset", "100%")
-	    .attr("stop-color", "#c00")
-	    .attr("stop-opacity", 1);
+		.attr("offset", "100%")
+		.attr("stop-color", "#c00")
+		.attr("stop-opacity", 1);
 
+	this.graphic = this.svg.append("g")
+		.attr("transform", "translate(" + this.params.margin.left + "," + this.params.margin.top + ")");
+};
+
+BuildWidget.prototype.buildSankey = function() {
+	var self = this;
+	
 	var sankey = d3.sankey()
 		.nodeWidth(15)
 		.nodePadding(10)
-		.size([width, height]);
+		.size([this.params.width, this.params.height]);
 
 	var path = sankey.link();
 
- 	sankey
-		.nodes(data.nodes)
-		.links(data.links)
+	sankey
+		.nodes(this.data.nodes)
+		.links(this.data.links)
 		.layout(32);
-
-	var link = svg.append("g").selectAll(".link")
-		  .data(data.links)
+	
+	var link = this.graphic.append("g").selectAll(".link")
+		  .data(this.data.links)
 		.enter().append("path")
 		  .attr("class", "link")
 		  .attr("d", path)
-		  // .attr("stroke", function (d) {
-		  // 	console.log(d);
-		  // 	return "url(#gradient)";
-		  // })
 		  .attr("stroke","url(#gradient)")
 		  .style("stroke-width", function(d) { return Math.max(1, d.dy); })
 		  .sort(function(a, b) { return b.dy - a.dy; });
 
-	link.append("title")
-		.text(function(d) {
-			return d.source.name + " → " + d.target.name + "\n" + format(d.value);
-		});
-	
-	var node = svg.append("g").selectAll(".node")
-		  .data(data.nodes)
-		.enter().append("g")
-		  .attr("class", "node")
-		  .attr("transform", function(d) {
-		  	return "translate(" + d.x + "," + d.y + ")";
-		  })
-		.call(
-			d3.behavior.drag()
-			  .origin(function(d) { 
-			  	return d;
-			  })
-			  .on("dragstart", function() { this.parentNode.appendChild(this); })
-			  .on("drag", dragmove)
-			);
+	/* What is this for? */
+	// link.append("title")
+	// 	.text(function(d) {
+	// 		return d.source.name + " → " + d.target.name;
+	// 	});
+
+	var node = this.graphic.append("g").selectAll(".node")
+					.data(this.data.nodes)
+					.enter().append("g")
+					.attr("class", "node")
+					.attr("transform", function(d) {
+		  				return "translate(" + d.x + "," + d.y + ")";
+					})
+					.call(
+						d3.behavior.drag()
+							.origin(function(d) { 
+								return d;
+							})
+							.on("dragstart", function() {
+								this.parentNode.appendChild(this);
+							})
+							.on("drag", dragmove)
+					);
 
 	node.append("rect")
 		.attr("height", function(d) { return d.dy; })
@@ -183,28 +217,29 @@ function buildGraphic (data) {
 		.style("fill", function(d) { 
 			return d.colour;
 		})
-		.style("stroke", function(d) { return d3.rgb(d.color).darker(2); })
-	  .append("title")
-		.text(function(d) { return d.name + "\n" + format(d.value); });
+		.style("stroke", function(d) { return d3.rgb(d.color).darker(2); });
+	  
+	  /* What is this for? */
+	  //.append("title")
+		//.text(function(d) { return d.name + "\n" + format(d.value); });
+
+	node.append("text")
+		.attr("x", -6)
+		.attr("y", function(d) { return d.dy / 2; })
+		.attr("dy", ".35em")
+		.attr("text-anchor", "end")
+		.attr("transform", null)
+		.text(function(d) { return d.name; })
+	  .filter(function(d) { return d.x < self.params.width / 2; })
+		.attr("x", 6 + sankey.nodeWidth())
+		.attr("text-anchor", "start");
 
 	function dragmove(d) {
-		d3.select(this).attr("transform", "translate(" + d.x + "," + (d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))) + ")");
+		d3.select(this).attr("transform", "translate(" + d.x + "," + (d.y = Math.max(0, Math.min(self.params.height - d.dy, d3.event.y))) + ")");
 		sankey.relayout();
 		link.attr("d", path);
 	}
-
-	  node.append("text")
-		  .attr("x", -6)
-		  .attr("y", function(d) { return d.dy / 2; })
-		  .attr("dy", ".35em")
-		  .attr("text-anchor", "end")
-		  .attr("transform", null)
-		  .text(function(d) { return d.name; })
-		.filter(function(d) { return d.x < width / 2; })
-		  .attr("x", 6 + sankey.nodeWidth())
-		  .attr("text-anchor", "start");
-
-}
+};
 
 (function() {
 	var init = function($) {
@@ -217,21 +252,16 @@ function buildGraphic (data) {
 		$.when( $.getScript(d3URL),
 				$.getScript(sankeyURL)
 		).then( function () {
+		
+			var data = buildData();
+			var params = buildParams("#chart");
 
-			/*	Load the data in parallel */
-			/*	https://groups.google.com/forum/#!msg/d3-js/3Y9VHkOOdCM/YnmOPopWUxQJ */
-			var data;
-			var remaining = 1;
-			var width = $(window).width();
+			var spaghettiChart = new BuildWidget(params, data);
+			
+			spaghettiChart.buildSVG();
+			spaghettiChart.buildSankey();
 
-			d3.json(dataURL, function (error, d) {
-				if (error) {
-					$(".widget-error-message").css("display","block");
-				} else {
-					data = d;
-					if (!--remaining) buildGraphic(d);
-				}
-			});
+			// var width = $(window).width();
 
 			window.onresize = resize;
 
