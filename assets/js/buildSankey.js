@@ -16,19 +16,38 @@ BuildWidget.prototype.buildSankey = function() {
 	var link = this.graphic.append("g").selectAll(".link")
 					.data(this.data.links)
 				  .enter().append("path")
-					.attr("class", "link")
+					.attr("class", function (d) {
+						return "link " + d.source.id + "2010 " + d.target.id + "2015";
+					})
+					.attr("d", path)
+					.attr("stroke", function (d) {
+						return "#aeaeae";
+					})
+					.style("stroke-width", function(d) { return Math.max(1, d.dy); })
+					.style("stroke-opacity", this.params.lowOpacity)
+					.sort(function(a, b) { return b.dy - a.dy; });
+
+	var toplink = this.graphic.append("g").selectAll(".top-link")
+					.data(this.data.links)
+				  .enter().append("path")
+					.attr("class", function (d) {
+						return "top-link " + d.source.id + "2010 " + d.target.id + "2015";
+					})
 					.attr("d", path)
 					.attr("stroke", function (d) {
 						return "url(#" + d.source.id + "-" + d.target.id + ")";
 					})
 					.style("stroke-width", function(d) { return Math.max(1, d.dy); })
-					.sort(function(a, b) { return b.dy - a.dy; });
-
-	/* What is this for? */
-	// link.append("title")
-	// 	.text(function(d) {
-	// 		return d.source.name + " → " + d.target.name;
-	// 	});
+					.style("stroke-opacity", 0)
+					.sort(function(a, b) { return b.dy - a.dy; })
+					.on("mouseenter", function(d) {
+						d3.select(this)
+							.style("stroke-opacity", self.params.highOpacity);
+					})
+					.on("mouseleave", function (d) {
+						d3.select(this)
+							.style("stroke-opacity", 0);
+					});
 
 	var node = this.graphic.append("g").selectAll(".node")
 					.data(this.data.nodes)
@@ -54,11 +73,17 @@ BuildWidget.prototype.buildSankey = function() {
 		.style("fill", function(d) {
 			return self.params.colours[d.id];
 		})
-		.style("stroke", "none");
-
-	  /* What is this for? */
-	  //.append("title")
-		//.text(function(d) { return d.name + "\n" + format(d.value); });
+		.style("stroke", "none")
+		.on("mouseenter", function(d) {
+			d3.select(self.params.target)
+				.selectAll(".top-link." + d.id + d.year)
+				.style("stroke-opacity", self.params.highOpacity);
+		})
+		.on("mouseleave", function (d) {
+			d3.select(self.params.target)
+				.selectAll(".top-link")
+				.style("stroke-opacity", 0);
+		});
 
 	node.append("text")
 		.attr("x", -6)
@@ -75,5 +100,6 @@ BuildWidget.prototype.buildSankey = function() {
 		d3.select(this).attr("transform", "translate(" + d.x + "," + (d.y = Math.max(0, Math.min(self.params.height - d.dy, d3.event.y))) + ")");
 		sankey.relayout();
 		link.attr("d", path);
+		toplink.attr("d", path);
 	}
 };

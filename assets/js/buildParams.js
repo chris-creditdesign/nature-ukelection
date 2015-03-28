@@ -1,9 +1,12 @@
 function buildParams (target) {
 	var params = {};
 
-	params.margin = {top: 1, right: 1, bottom: 6, left: 1};
+	params.margin = {top: 1, right: 10, bottom: 6, left: 10};
 	params.width = 630 - params.margin.left - params.margin.right;
 	params.height = 500 - params.margin.top - params.margin.bottom;
+
+	params.highOpacity = 1;
+	params.lowOpacity = 0.3;
 
 	params.target = target;
 

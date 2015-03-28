@@ -7,9 +7,7 @@ BuildWidget.prototype.buildSVG = function() {
 	/* Iterate through each of the colours and create a gradient for each combination */
 	var gradient;
 	for (var start in this.params.colours ) {
-		// console.log(start + " " + this.params.colours[start]);
 		for (var end in this.params.colours) {
-			// console.log(start + "-" + end);
 
 			gradient = this.svg.append("svg:defs")
 			  .append("svg:linearGradient")
