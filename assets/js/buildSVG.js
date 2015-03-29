@@ -1,4 +1,6 @@
 BuildWidget.prototype.buildSVG = function() {
+
+	d3.select(this.params.target).select("img").remove();
 	
 	this.svg = d3.select(this.params.target).append("svg")
 		.attr("width", this.params.width + this.params.margin.left + this.params.margin.right)

@@ -45,7 +45,7 @@
 </style>
 <div class="outerwrapper">
 	<div class="header">
-		<h2>INTERACTIVE: UK election 2015</h2>
+		<h2><span id="is-interactive"></span>UK election 2015</h2>
 		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad iure recusandae soluta explicabo et error nostrum earum aliquam, dolorum impedit magni eum at reprehenderit expedita maxime odio placeat. Omnis, totam.</p>
 	</div>
 	<div class="cf">
@@ -56,8 +56,12 @@
 			<p><strong>2015</strong></p>
 		</div>
 	</div>
-	<div id="chart"></div>
+	<div id="chart">
+		<img src="images/nature-ukelection-nojs.png" alt="To view this interactive graphic please use a modern browser (e.g. Chrome, Safari or Firefox) with javascript enabled.">
+	</div>
 </div>
+
+<p class="credit">Source: Xyxy xyxyx xyy.</p>
 <!--[if gt IE 8]><!-->
 <script type="text/javascript">
 /* http://davidwalsh.name/javascript-debounce-function */
@@ -493,6 +497,8 @@ function buildParams (target) {
 }
 
 BuildWidget.prototype.buildSVG = function() {
+
+	d3.select(this.params.target).select("img").remove();
 	
 	this.svg = d3.select(this.params.target).append("svg")
 		.attr("width", this.params.width + this.params.margin.left + this.params.margin.right)
@@ -640,9 +646,6 @@ BuildWidget.prototype.resize = function() {
 
 (function() {
 	var init = function($) {
-		// var d3URL = "http://www.nature.com/widget_assets_polopoly/v518n7538/d3.v3.min.js";
-
-		var dataURL = "data/energy6.json";
 		var d3URL = "js/d3.v3.min.js";
 
 		$.getScript( d3URL )
@@ -651,6 +654,9 @@ BuildWidget.prototype.resize = function() {
 				var data = buildData();
 				var params = buildParams("#chart");
 				var width = $(window).width();
+
+				/* If we are able to load the svg add 'Interactive:' to the headline */
+				d3.select("#is-interactive").text("INTERACTIVE: ");
 
 				var spaghettiChart = new BuildWidget(params, data);
 				
@@ -669,10 +675,6 @@ BuildWidget.prototype.resize = function() {
 
 				window.addEventListener('resize', resize);
 
-			})
-			.fail(function( jqxhr, settings, exception ) {
-				$(".widget-error-message").css("display","block");
-				console.log("It's not loaded!");
 			});
 	/* End of active code */
 	};
@@ -683,7 +685,7 @@ BuildWidget.prototype.resize = function() {
 			if ( document.implementation.hasFeature('http://www.w3.org/TR/SVG11/feature#Image','1.1') ) {
 				init(jQuery);
 			} else {
-				jQuery(".widget-status-message").css("display","block");
+				return;
 			}
 		} else {
 			setTimeout(arguments.callee, 60);
