@@ -18,7 +18,7 @@ function buildParams (target) {
 		green: "#46A72C",
 		labour: "#A7141D",
 		libDem: "#FED459",
-		other: "#",
+		other: "#868987",
 		plaid: "#01632C",
 		snp: "#F8B435",
 		ukip: "#B570A7",

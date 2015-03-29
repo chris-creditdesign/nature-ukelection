@@ -15,12 +15,12 @@ BuildWidget.prototype.buildSVG = function() {
 				.attr("gradientUnits","userSpaceOnUse");
 
 			gradient.append("svg:stop")
-				.attr("offset", "0%")
+				.attr("offset", "30%")
 				.attr("stop-color", this.params.colours[start])
 				.attr("stop-opacity", 1);
 
 			gradient.append("svg:stop")
-				.attr("offset", "100%")
+				.attr("offset", "70%")
 				.attr("stop-color", this.params.colours[end])
 				.attr("stop-opacity", 1);
 		}
