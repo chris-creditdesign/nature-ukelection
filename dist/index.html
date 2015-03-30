@@ -590,17 +590,20 @@ BuildWidget.prototype.buildSankey = function() {
 							.style("stroke-opacity", 0);
 					});
 
+	/* Add 1px extra width and nudge the nodes so that they meet the paths nicely */
 	var node = this.graphic.append("g").selectAll(".node")
 					.data(this.data.nodes)
 					.enter().append("g")
 					.attr("class", "node")
 					.attr("transform", function(d) {
-		  				return "translate(" + d.x + "," + d.y + ")";
+		  				return "translate(" + (d.x - 1) + "," + d.y + ")";
 					});
+
+	console.log(sankey.nodeWidth());
 
 	node.append("rect")
 		.attr("height", function(d) { return d.dy; })
-		.attr("width", sankey.nodeWidth())
+		.attr("width", sankey.nodeWidth() + 2) 
 		.style("fill", function(d) {
 			return self.params.colours[d.id];
 		})
