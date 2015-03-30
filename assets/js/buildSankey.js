@@ -2,12 +2,12 @@ BuildWidget.prototype.buildSankey = function() {
 	var self = this;
 
 	this.graphic = this.svg.append("g")
-		.attr("transform", "translate(" + this.params.margin.left + "," + this.params.margin.top + ")");
+		.attr("transform", "translate(" + (this.params.margin.left + this.params.width) + "," + (this.params.margin.top - (this.params.height * (1 - this.params.heightRatio))) + ") rotate(-90 " + (this.params.width / 2) + " " + (this.params.height / 2) + ") scale(1,-1)");
 	
 	var sankey = d3.sankey()
-		.nodeWidth(15)
+		.nodeWidth(40)
 		.nodePadding(10)
-		.size([this.params.width, this.params.height]);
+		.size([this.params.sankeyWidth, this.params.height]);
 
 	var path = sankey.link();
 
@@ -58,17 +58,7 @@ BuildWidget.prototype.buildSankey = function() {
 					.attr("class", "node")
 					.attr("transform", function(d) {
 		  				return "translate(" + d.x + "," + d.y + ")";
-					})
-					.call(
-						d3.behavior.drag()
-							.origin(function(d) { 
-								return d;
-							})
-							.on("dragstart", function() {
-								this.parentNode.appendChild(this);
-							})
-							.on("drag", dragmove)
-					);
+					});
 
 	node.append("rect")
 		.attr("height", function(d) { return d.dy; })
@@ -87,22 +77,4 @@ BuildWidget.prototype.buildSankey = function() {
 				.selectAll(".top-link")
 				.style("stroke-opacity", 0);
 		});
-
-	node.append("text")
-		.attr("x", -6)
-		.attr("y", function(d) { return d.dy / 2; })
-		.attr("dy", ".35em")
-		.attr("text-anchor", "end")
-		.attr("transform", null)
-		.text(function(d) { return d.name; })
-	  .filter(function(d) { return d.x < self.params.width / 2; })
-		.attr("x", 6 + sankey.nodeWidth())
-		.attr("text-anchor", "start");
-
-	function dragmove(d) {
-		d3.select(this).attr("transform", "translate(" + d.x + "," + (d.y = Math.max(0, Math.min(self.params.height - d.dy, d3.event.y))) + ")");
-		sankey.relayout();
-		link.attr("d", path);
-		toplink.attr("d", path);
-	}
 };

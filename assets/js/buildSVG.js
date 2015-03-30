@@ -4,7 +4,7 @@ BuildWidget.prototype.buildSVG = function() {
 	
 	this.svg = d3.select(this.params.target).append("svg")
 		.attr("width", this.params.width + this.params.margin.left + this.params.margin.right)
-		.attr("height", this.params.height + this.params.margin.top + this.params.margin.bottom);
+		.attr("height", this.params.sankeyHeight + this.params.margin.top + this.params.margin.bottom);
 
 	/* Iterate through each of the colours and create a gradient for each combination */
 	var gradient;

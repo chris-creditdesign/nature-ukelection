@@ -4,7 +4,7 @@ function buildData () {
 	data.nodes = [
 		/* From */
 		{"node":0, "name":"Conservative", "id":"conservative", "year":2010,},
-		{"node":1, "name":"None or other",  "id":"dontKnow", "year":2010,},
+		{"node":1, "name":"None or other",  "id":"none", "year":2010,},
 		{"node":2, "name":"Green", "id":"green", "year":2010,},
 		{"node":3, "name":"Labour", "id":"labour", "year":2010,},
 		{"node":4, "name":"Liberal Democrats", "id":"libDem", "year":2010,},
@@ -13,7 +13,7 @@ function buildData () {
 		{"node":7, "name":"UKIP", "id":"ukip", "year":2010,},
 		/* To */
 		{"node":8, "name":"Conservative", "id":"conservative", "year":2015,},
-		{"node":9, "name":"None, other or undecided", "id":"undecided", "year":2015,},
+		{"node":9, "name":"None, other or undecided", "id":"none", "year":2015,},
 		{"node":10, "name":"Green", "id":"green", "year":2015,},
 		{"node":11, "name":"Labour", "id":"labour", "year":2015,},
 		{"node":12, "name":"Liberal Democrats", "id":"libDem", "year":2015,},

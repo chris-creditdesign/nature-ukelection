@@ -20,13 +20,6 @@
 .outerwrapper .right {
   float: right;
 }
-.outerwrapper .node rect {
-  cursor: move;
-  fill-opacity: 1;
-}
-.outerwrapper .node text {
-  pointer-events: none;
-}
 .outerwrapper .link, .outerwrapper .top-link {
   fill: none;
 }
@@ -45,17 +38,11 @@
 		<h2><span id="is-interactive"></span>UK election 2015</h2>
 		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad iure recusandae soluta explicabo et error nostrum earum aliquam, dolorum impedit magni eum at reprehenderit expedita maxime odio placeat. Omnis, totam.</p>
 	</div>
-	<div class="cf">
-		<div class="left">
-			<p><strong>2010</strong></p>
-		</div>
-		<div class="right">
-			<p><strong>2015</strong></p>
-		</div>
-	</div>
+	<p>How will they vote in <strong>2015</strong></p>
 	<div id="chart">
 		<img src="http://www.nature.com/polopoly_fs/7.24950.1427705283!/image/nature-ukelection-nojs.png" alt="To view this interactive graphic please use a modern browser (e.g. Chrome, Safari or Firefox) with javascript enabled.">
 	</div>
+	<p>How did they vote in <strong>2010</strong></p>
 </div>
 
 <p class="credit">Source: Xyxy xyxyx xyy.</p>
@@ -381,23 +368,23 @@ function buildData () {
 
 	data.nodes = [
 		/* From */
-		{"node":0, "name":"Conservative",		"id":"conservative", "year":2010,},
-		{"node":1, "name":"None or other",		"id":"dontKnow",	 "year":2010,},
-		{"node":2, "name":"Green",			"id":"green",		 "year":2010,},
-		{"node":3, "name":"Labour",			"id":"labour",		 "year":2010,},
-		{"node":4, "name":"Liberal Democrats",	"id":"libDem",		 "year":2010,},
-		{"node":5, "name":"Plaid Cymru",		"id":"plaid",		 "year":2010,},
-		{"node":6, "name":"SNP",				"id":"snp",		 "year":2010,},
-		{"node":7, "name":"UKIP",			"id":"ukip",		 "year":2010,},
+		{"node":0, "name":"Conservative", "id":"conservative", "year":2010,},
+		{"node":1, "name":"None or other",  "id":"none", "year":2010,},
+		{"node":2, "name":"Green", "id":"green", "year":2010,},
+		{"node":3, "name":"Labour", "id":"labour", "year":2010,},
+		{"node":4, "name":"Liberal Democrats", "id":"libDem", "year":2010,},
+		{"node":5, "name":"Plaid Cymru", "id":"plaid", "year":2010,},
+		{"node":6, "name":"SNP", "id":"snp", "year":2010,},
+		{"node":7, "name":"UKIP", "id":"ukip", "year":2010,},
 		/* To */
-		{"node":8, "name":"Conservative",		"id":"conservative", "year":2015,},
-		{"node":9, "name":"None, other or undecided", "id":"undecided",	 "year":2015,},
-		{"node":10, "name":"Green",			"id":"green",		 "year":2015,},
-		{"node":11, "name":"Labour",			"id":"labour",		 "year":2015,},
-		{"node":12, "name":"Liberal Democrats",	"id":"libDem",		 "year":2015,},
-		{"node":13, "name":"Plaid Cymru",		"id":"plaid",		 "year":2015,},
-		{"node":14, "name":"SNP",			"id":"snp",		 "year":2015,},
-		{"node":15, "name":"UKIP",			"id":"ukip",		 "year":2015,}
+		{"node":8, "name":"Conservative", "id":"conservative", "year":2015,},
+		{"node":9, "name":"None, other or undecided", "id":"none", "year":2015,},
+		{"node":10, "name":"Green", "id":"green", "year":2015,},
+		{"node":11, "name":"Labour", "id":"labour", "year":2015,},
+		{"node":12, "name":"Liberal Democrats", "id":"libDem", "year":2015,},
+		{"node":13, "name":"Plaid Cymru", "id":"plaid", "year":2015,},
+		{"node":14, "name":"SNP", "id":"snp", "year":2015,},
+		{"node":15, "name":"UKIP", "id":"ukip", "year":2015,}
 	];
 
 	data.links = [
@@ -419,7 +406,7 @@ function buildData () {
 		{"source":2, "target":10, "value": 10},
 		{"source":2, "target":11, "value": 1},
 		{"source":2, "target":14, "value": 1},
-          
+
 		/* Labour 2010 */
 		{"source":3, "target":8, "value": 2},
 		{"source":3, "target":9, "value": 22},
@@ -429,7 +416,7 @@ function buildData () {
 		{"source":3, "target":13, "value": 1},
 		{"source":3, "target":14, "value": 4},
 		{"source":3, "target":15, "value": 1},
-        
+
 		/* Lib Dem 2010 */
 		{"source":4, "target":8, "value": 5},
 		{"source":4, "target":9, "value": 39},
@@ -437,14 +424,14 @@ function buildData () {
 		{"source":4, "target":11, "value": 17},
 		{"source":4, "target":12, "value": 25},
 		{"source":4, "target":14, "value": 1},
-        
+
 		/* Plaid 2010 */
 		{"source":5, "target":9, "value": 1},
-        
+
 		/* SNP 2010 */
 		{"source":6, "target":14, "value": 11},
 		{"source":6, "target":9, "value": 1},
-        
+
 		/* UKIP 2010 */
 		{"source":7, "target":15, "value": 4}
 	];
@@ -457,9 +444,13 @@ function buildParams (target) {
 
 	var contentWidth = jQuery("#content").width();
 
-	params.margin = {top: 1, right: 10, bottom: 6, left: 10};
+	params.heightRatio = 0.8;
+
+	params.margin = {top: 10, right: 10, bottom: 10, left: 10};
 	params.width = contentWidth - params.margin.left - params.margin.right;
-	params.height = 500 - params.margin.top - params.margin.bottom;
+	params.height = contentWidth - params.margin.top - params.margin.bottom;
+	params.sankeyWidth = params.width * params.heightRatio;
+	params.sankeyHeight = params.height * params.heightRatio;
 
 	params.highOpacity = 1;
 	params.lowOpacity = 0.3;
@@ -468,16 +459,13 @@ function buildParams (target) {
 
 	params.colours = {
 		conservative: "#006CB1",
-		dontKnow: "#868987",
+		none: "#868987",
 		green: "#46A72C",
 		labour: "#A7141D",
 		libDem: "#FED459",
-		other: "#868987",
 		plaid: "#01632C",
 		snp: "#F8B435",
-		ukip: "#B570A7",
-		undecided: "#868987",
-		notVoting: "#868987"
+		ukip: "#B570A7"
 	};
 
 	return params;
@@ -489,7 +477,7 @@ BuildWidget.prototype.buildSVG = function() {
 	
 	this.svg = d3.select(this.params.target).append("svg")
 		.attr("width", this.params.width + this.params.margin.left + this.params.margin.right)
-		.attr("height", this.params.height + this.params.margin.top + this.params.margin.bottom);
+		.attr("height", this.params.sankeyHeight + this.params.margin.top + this.params.margin.bottom);
 
 	/* Iterate through each of the colours and create a gradient for each combination */
 	var gradient;
@@ -518,12 +506,12 @@ BuildWidget.prototype.buildSankey = function() {
 	var self = this;
 
 	this.graphic = this.svg.append("g")
-		.attr("transform", "translate(" + this.params.margin.left + "," + this.params.margin.top + ")");
+		.attr("transform", "translate(" + (this.params.margin.left + this.params.width) + "," + (this.params.margin.top - (this.params.height * (1 - this.params.heightRatio))) + ") rotate(-90 " + (this.params.width / 2) + " " + (this.params.height / 2) + ") scale(1,-1)");
 	
 	var sankey = d3.sankey()
-		.nodeWidth(15)
+		.nodeWidth(40)
 		.nodePadding(10)
-		.size([this.params.width, this.params.height]);
+		.size([this.params.sankeyWidth, this.params.height]);
 
 	var path = sankey.link();
 
@@ -574,17 +562,7 @@ BuildWidget.prototype.buildSankey = function() {
 					.attr("class", "node")
 					.attr("transform", function(d) {
 		  				return "translate(" + d.x + "," + d.y + ")";
-					})
-					.call(
-						d3.behavior.drag()
-							.origin(function(d) { 
-								return d;
-							})
-							.on("dragstart", function() {
-								this.parentNode.appendChild(this);
-							})
-							.on("drag", dragmove)
-					);
+					});
 
 	node.append("rect")
 		.attr("height", function(d) { return d.dy; })
@@ -603,38 +581,27 @@ BuildWidget.prototype.buildSankey = function() {
 				.selectAll(".top-link")
 				.style("stroke-opacity", 0);
 		});
-
-	node.append("text")
-		.attr("x", -6)
-		.attr("y", function(d) { return d.dy / 2; })
-		.attr("dy", ".35em")
-		.attr("text-anchor", "end")
-		.attr("transform", null)
-		.text(function(d) { return d.name; })
-	  .filter(function(d) { return d.x < self.params.width / 2; })
-		.attr("x", 6 + sankey.nodeWidth())
-		.attr("text-anchor", "start");
-
-	function dragmove(d) {
-		d3.select(this).attr("transform", "translate(" + d.x + "," + (d.y = Math.max(0, Math.min(self.params.height - d.dy, d3.event.y))) + ")");
-		sankey.relayout();
-		link.attr("d", path);
-		toplink.attr("d", path);
-	}
 };
 
 BuildWidget.prototype.resize = function() {
 	var contentWidth = jQuery("#content").width();
 
 	this.params.width = contentWidth - this.params.margin.left - this.params.margin.right;
+	this.params.height = contentWidth - this.params.margin.top - this.params.margin.bottom;
+	
+	this.params.sankeyWidth = this.params.width * this.params.heightRatio;
+	this.params.sankeyHeight = this.params.height * this.params.heightRatio;
 
-	this.svg.attr("width", this.params.width + this.params.margin.left + this.params.margin.right);
+
+	this.svg.attr("width", this.params.width + this.params.margin.left + this.params.margin.right)
+			.attr("height", this.params.sankeyHeight + this.params.margin.top + this.params.margin.bottom);
+
 };
 
 (function() {
 	var init = function($) {
-		// var d3URL = "js/d3.v3.min.js";
-		var d3URL = "http://www.nature.com/polopoly_static/js/d3.v3.min.js";
+		var d3URL = "js/d3.v3.min.js";
+		// var d3URL = "http://www.nature.com/polopoly_static/js/d3.v3.min.js";
 
 		$.getScript( d3URL )
 			.done(function( script, textStatus ) {
