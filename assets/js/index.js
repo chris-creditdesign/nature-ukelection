@@ -1,7 +1,7 @@
 (function() {
 	var init = function($) {
-		var d3URL = "js/d3.v3.min.js";
-		// var d3URL = "http://www.nature.com/polopoly_static/js/d3.v3.min.js";
+		// var d3URL = "js/d3.v3.min.js";
+		var d3URL = "http://www.nature.com/polopoly_static/js/d3.v3.min.js";
 
 		$.getScript( d3URL )
 			.done(function( script, textStatus ) {
