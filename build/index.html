@@ -82,9 +82,7 @@
 .outerwrapper .cf:before,
 .outerwrapper .cf:after {
   content: " ";
-  /* 1 */
   display: table;
-  /* 2 */
 }
 .outerwrapper .cf:after {
   clear: both;
@@ -105,7 +103,7 @@
 		</div>
 	</div>
 	<div id="chart">
-		<img src="images/nature-ukelection-nojs.png" alt="To view this interactive graphic please use a modern browser (e.g. Chrome, Safari or Firefox) with javascript enabled.">
+		<img src="http://www.nature.com/polopoly_fs/7.24950.1427705283!/image/nature-ukelection-nojs.png" alt="To view this interactive graphic please use a modern browser (e.g. Chrome, Safari or Firefox) with javascript enabled.">
 	</div>
 </div>
 
@@ -694,7 +692,8 @@ BuildWidget.prototype.resize = function() {
 
 (function() {
 	var init = function($) {
-		var d3URL = "js/d3.v3.min.js";
+		// var d3URL = "js/d3.v3.min.js";
+		var d3URL = "http://www.nature.com/polopoly_static/js/d3.v3.min.js";
 
 		$.getScript( d3URL )
 			.done(function( script, textStatus ) {
@@ -724,7 +723,6 @@ BuildWidget.prototype.resize = function() {
 				window.addEventListener('resize', resize);
 
 			});
-	/* End of active code */
 	};
 
 	setTimeout(function() {

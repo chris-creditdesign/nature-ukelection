@@ -6,7 +6,6 @@
 
 .outerwrapper {
 	width: 100%;
-	// min-height: 900px;
 	position: relative;
 	border: 1px solid #c8c7cf;
 
@@ -39,8 +38,8 @@
 	// http://nicolasgallagher.com/micro-clearfix-hack/
 	.cf:before,
 	.cf:after {
-	    content: " "; /* 1 */
-	    display: table; /* 2 */
+	    content: " "; 
+	    display: table;
 	}
 
 	.cf:after {
@@ -48,4 +47,3 @@
 	}
 
 } // outerwrapper
-
