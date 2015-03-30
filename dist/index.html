@@ -1,10 +1,4 @@
 <style scoped>
-.status-message {
-  border: 1px solid #c00;
-  background: #fac7c7;
-  padding: 10px;
-}
-
 .outerwrapper {
   width: 100%;
   position: relative;
@@ -26,6 +20,36 @@
 .outerwrapper .link, .outerwrapper .top-link {
   fill: none;
 }
+.outerwrapper .key {
+  margin: 5px 0;
+  overflow: hidden;
+}
+@media (min-width: 630px) {
+  .outerwrapper .key {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+  }
+}
+@media (max-width: 629px) {
+  .outerwrapper .key {
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+  }
+}
+.outerwrapper ul {
+  overflow: visible;
+  padding: 0 10px;
+}
+.outerwrapper ul li {
+  list-style: none;
+  padding: 0 0 0 0.5em;
+  margin: 4px 0px 8px;
+  border-left-width: 1.2em;
+  border-left-style: solid;
+  line-height: 1.2em;
+}
 
 </style>
 <div class="outerwrapper">
@@ -33,7 +57,20 @@
 		<h2><span id="is-interactive"></span>UK election 2015</h2>
 		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad iure recusandae soluta explicabo et error nostrum earum aliquam, dolorum impedit magni eum at reprehenderit expedita maxime odio placeat. Omnis, totam.</p>
 	</div>
-	
+
+	<div class="key">
+		<ul>
+			<li style="border-left-color: #F8B435;">SNP</li>
+			<li style="border-left-color: #01632C;">Plaid Cymru</li>
+			<li style="border-left-color: #B570A7;">UKIP</li>
+			<li style="border-left-color: #46A72C;">Greens</li>
+			<li style="border-left-color: #A7141D;">Labour</li>
+			<li style="border-left-color: #FED459;">Liberal Democrats</li>
+			<li style="border-left-color: #006CB1;">Conservatives</li>
+			<li style="border-left-color: #868987;">None, other or don't know</li>
+		</ul>
+	</div>
+
 	<div class="graphic">
 		<p>How will they vote in <strong>2015</strong></p>
 		<div id="chart">

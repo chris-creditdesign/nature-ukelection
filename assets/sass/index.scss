@@ -1,7 +1,12 @@
-.status-message {
-	border: 1px solid #c00;
-	background: #fac7c7;
-	padding: 10px;
+// Allows number of columns to altered based on screen width
+// ===============================================
+@mixin breakpoint($point) {
+	@if $point == large-screen {
+		@media (min-width: 630px) { @content; }
+	}
+	@else if $point == med-screen {
+		@media (max-width: 629px) { @content; }
+	}
 }
 
 .outerwrapper {
@@ -26,6 +31,38 @@
 
 	.link, .top-link {
 		fill: none;
+	}
+
+	// key 
+	// ===============================================
+	.key {
+		@include breakpoint(large-screen) { 
+			-webkit-column-count: 3;
+			-moz-column-count: 3;
+			column-count: 3;
+		}
+
+		@include breakpoint(med-screen) { 
+			-webkit-column-count: 2;
+			-moz-column-count: 2;
+			column-count: 2;
+		}
+
+		margin: 5px 0;
+		overflow: hidden;
+	}
+	
+	ul {
+		overflow: visible;
+		padding: 0 10px;
+		li {
+			list-style: none;
+			padding: 0 0 0 0.5em;
+			margin: 4px 0px 8px;
+			border-left-width: 1.2em; 
+			border-left-style: solid;
+			line-height: 1.2em;
+		}
 	}
 
 
