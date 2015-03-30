@@ -26,7 +26,6 @@
 	.node rect {
 		cursor: move;
 		fill-opacity: 1;
-		shape-rendering: crispEdges;
 	}
 
 	.node text {
@@ -37,7 +36,7 @@
 		fill: none;
 	}
 
-	//http://nicolasgallagher.com/micro-clearfix-hack/
+	// http://nicolasgallagher.com/micro-clearfix-hack/
 	.cf:before,
 	.cf:after {
 	    content: " "; /* 1 */
