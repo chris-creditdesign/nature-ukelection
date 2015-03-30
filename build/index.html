@@ -493,9 +493,8 @@ function buildParams (target) {
 
 	params.heightRatio = 0.8;
 
-	params.margin = {top: 0, right: 0, bottom: 0, left: 0};
-	params.width = contentWidth - params.margin.left - params.margin.right;
-	params.height = contentWidth - params.margin.top - params.margin.bottom;
+	params.width = contentWidth;
+	params.height = contentWidth;
 	params.sankeyWidth = params.width * params.heightRatio;
 	params.sankeyHeight = params.height * params.heightRatio;
 
@@ -523,8 +522,8 @@ BuildWidget.prototype.buildSVG = function() {
 	d3.select(this.params.target).select("img").remove();
 	
 	this.svg = d3.select(this.params.target).append("svg")
-		.attr("width", this.params.width + this.params.margin.left + this.params.margin.right)
-		.attr("height", this.params.sankeyHeight + this.params.margin.top + this.params.margin.bottom);
+		.attr("width", this.params.width)
+		.attr("height", this.params.sankeyHeight);
 
 	/* Iterate through each of the colours and create a gradient for each combination */
 	var gradient;
@@ -553,7 +552,7 @@ BuildWidget.prototype.buildSankey = function() {
 	var self = this;
 
 	this.graphic = this.svg.append("g")
-		.attr("transform", "translate(" + (this.params.margin.left + this.params.width) + "," + (this.params.margin.top - (this.params.height * (1 - this.params.heightRatio))) + ") rotate(-90 " + (this.params.width / 2) + " " + (this.params.height / 2) + ") scale(1,-1)");
+		.attr("transform", "translate(" + this.params.width + "," + ( -(this.params.height * (1 - this.params.heightRatio))) + ") rotate(-90 " + (this.params.width / 2) + " " + (this.params.height / 2) + ") scale(1,-1)");
 	
 	var sankey = d3.sankey()
 		.nodeWidth(40)
@@ -633,15 +632,15 @@ BuildWidget.prototype.buildSankey = function() {
 BuildWidget.prototype.resize = function() {
 	var contentWidth = jQuery("#content").width() - 20;
 
-	this.params.width = contentWidth - this.params.margin.left - this.params.margin.right;
-	this.params.height = contentWidth - this.params.margin.top - this.params.margin.bottom;
+	this.params.width = contentWidth;
+	this.params.height = contentWidth;
 	
 	this.params.sankeyWidth = this.params.width * this.params.heightRatio;
 	this.params.sankeyHeight = this.params.height * this.params.heightRatio;
 
 
-	this.svg.attr("width", this.params.width + this.params.margin.left + this.params.margin.right)
-			.attr("height", this.params.sankeyHeight + this.params.margin.top + this.params.margin.bottom);
+	this.svg.attr("width", this.params.width)
+			.attr("height", this.params.sankeyHeight);
 
 };
 

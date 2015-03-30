@@ -2,7 +2,7 @@ BuildWidget.prototype.buildSankey = function() {
 	var self = this;
 
 	this.graphic = this.svg.append("g")
-		.attr("transform", "translate(" + (this.params.margin.left + this.params.width) + "," + (this.params.margin.top - (this.params.height * (1 - this.params.heightRatio))) + ") rotate(-90 " + (this.params.width / 2) + " " + (this.params.height / 2) + ") scale(1,-1)");
+		.attr("transform", "translate(" + this.params.width + "," + ( -(this.params.height * (1 - this.params.heightRatio))) + ") rotate(-90 " + (this.params.width / 2) + " " + (this.params.height / 2) + ") scale(1,-1)");
 	
 	var sankey = d3.sankey()
 		.nodeWidth(40)
