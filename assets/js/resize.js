@@ -1,5 +1,5 @@
 BuildWidget.prototype.resize = function() {
-	var contentWidth = jQuery("#content").width();
+	var contentWidth = jQuery("#content").width() - 20;
 
 	this.params.width = contentWidth - this.params.margin.left - this.params.margin.right;
 	this.params.height = contentWidth - this.params.margin.top - this.params.margin.bottom;

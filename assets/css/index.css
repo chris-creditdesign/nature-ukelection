@@ -13,20 +13,15 @@
   padding: 10px 10px 0 10px;
   margin: 0;
 }
-.outerwrapper .left {
-  float: left;
+.outerwrapper .graphic {
+  margin: 10px 10px;
 }
-.outerwrapper .right {
-  float: right;
+.outerwrapper .graphic p {
+  padding: 0;
+}
+.outerwrapper .graphic p:first-of-type {
+  padding: 0 0 0.2em 0;
 }
 .outerwrapper .link, .outerwrapper .top-link {
   fill: none;
-}
-.outerwrapper .cf:before,
-.outerwrapper .cf:after {
-  content: " ";
-  display: table;
-}
-.outerwrapper .cf:after {
-  clear: both;
 }

@@ -14,27 +14,19 @@
 		margin: 0;
 	}
 
-	.left {
-		float: left;
-	}
-
-	.right {
-		float: right;
+	.graphic {
+		margin: 10px 10px;
+		p {
+			padding: 0;
+		}
+		p:first-of-type {
+			padding: 0 0 0.2em 0;
+		}
 	}
 
 	.link, .top-link {
 		fill: none;
 	}
 
-	// http://nicolasgallagher.com/micro-clearfix-hack/
-	.cf:before,
-	.cf:after {
-	    content: " "; 
-	    display: table;
-	}
-
-	.cf:after {
-	    clear: both;
-	}
 
 } // outerwrapper

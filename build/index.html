@@ -63,22 +63,17 @@
   padding: 10px 10px 0 10px;
   margin: 0;
 }
-.outerwrapper .left {
-  float: left;
+.outerwrapper .graphic {
+  margin: 10px 10px;
 }
-.outerwrapper .right {
-  float: right;
+.outerwrapper .graphic p {
+  padding: 0;
+}
+.outerwrapper .graphic p:first-of-type {
+  padding: 0 0 0.2em 0;
 }
 .outerwrapper .link, .outerwrapper .top-link {
   fill: none;
-}
-.outerwrapper .cf:before,
-.outerwrapper .cf:after {
-  content: " ";
-  display: table;
-}
-.outerwrapper .cf:after {
-  clear: both;
 }
 
 </style>
@@ -87,11 +82,14 @@
 		<h2><span id="is-interactive"></span>UK election 2015</h2>
 		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad iure recusandae soluta explicabo et error nostrum earum aliquam, dolorum impedit magni eum at reprehenderit expedita maxime odio placeat. Omnis, totam.</p>
 	</div>
-	<p>How will they vote in <strong>2015</strong></p>
-	<div id="chart">
-		<img src="http://www.nature.com/polopoly_fs/7.24950.1427705283!/image/nature-ukelection-nojs.png" alt="To view this interactive graphic please use a modern browser (e.g. Chrome, Safari or Firefox) with javascript enabled.">
+	
+	<div class="graphic">
+		<p>How will they vote in <strong>2015</strong></p>
+		<div id="chart">
+			<img src="http://www.nature.com/polopoly_fs/7.24950.1427705283!/image/nature-ukelection-nojs.png" alt="To view this interactive graphic please use a modern browser (e.g. Chrome, Safari or Firefox) with javascript enabled.">
+		</div>
+		<p>How did they vote in <strong>2010</strong></p>
 	</div>
-	<p>How did they vote in <strong>2010</strong></p>
 </div>
 
 <p class="credit">Source: Xyxy xyxyx xyy.</p>
@@ -491,11 +489,11 @@ function buildData () {
 function buildParams (target) {
 	var params = {};
 
-	var contentWidth = jQuery("#content").width();
+	var contentWidth = jQuery("#content").width() - 20;
 
 	params.heightRatio = 0.8;
 
-	params.margin = {top: 10, right: 10, bottom: 10, left: 10};
+	params.margin = {top: 0, right: 0, bottom: 0, left: 0};
 	params.width = contentWidth - params.margin.left - params.margin.right;
 	params.height = contentWidth - params.margin.top - params.margin.bottom;
 	params.sankeyWidth = params.width * params.heightRatio;
@@ -633,7 +631,7 @@ BuildWidget.prototype.buildSankey = function() {
 };
 
 BuildWidget.prototype.resize = function() {
-	var contentWidth = jQuery("#content").width();
+	var contentWidth = jQuery("#content").width() - 20;
 
 	this.params.width = contentWidth - this.params.margin.left - this.params.margin.right;
 	this.params.height = contentWidth - this.params.margin.top - this.params.margin.bottom;
