@@ -61,8 +61,6 @@ BuildWidget.prototype.buildSankey = function() {
 		  				return "translate(" + (d.x - 1) + "," + d.y + ")";
 					});
 
-	console.log(sankey.nodeWidth());
-
 	node.append("rect")
 		.attr("height", function(d) { return d.dy; })
 		.attr("width", sankey.nodeWidth() + 2) 
